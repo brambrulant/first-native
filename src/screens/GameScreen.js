@@ -7,11 +7,18 @@ import Camera from "./Camera";
 
 export default function GameScreen() {
   const [color, set_color] = useState("white");
+  const [torch, setTorch] = useState(true)
 
   useEffect(() => {
     DeviceMotion.setUpdateInterval(250);
     const subscription = DeviceMotion.addListener((data) => {
-      // console.log(data);
+      const beta = data && data.rotation
+        ? data.rotation.beta
+        : null
+      console.log('beta test:', beta);
+      const torch = beta > 0.75
+      console.log('torch test:', torch)
+      setTorch(torch)
       const hue = Math.max(0, Math.round(150 + 150 * data.rotation.beta) % 360);
 
       // from 0% to 100% (from gray/black to fully saturated color)
@@ -25,7 +32,7 @@ export default function GameScreen() {
 
     // cleanup on unmount
     return () => subscription.remove();
-  }, [[set_color]]);
+  }, [[set_color, color]]);
 
   return (
     <View
@@ -41,7 +48,7 @@ export default function GameScreen() {
       <Text style={{ marginBottom: 20, fontSize: 24, fontWeight: "bold" }}>
         Choose your color!
       </Text>
-      <Camera />
+      <Camera torch={torch} />
     </View>
   );
 }

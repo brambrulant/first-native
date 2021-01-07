@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Camera } from "expo-camera";
 
-export default function App() {
+export default function Camera ({ torch }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [flashMode, setFlashMode] = useState(true);
@@ -29,8 +29,8 @@ export default function App() {
         type={type}
         ref={(ref) => (cameraRef = ref)}
         flashMode={
-          flashMode
-            ? Camera.Constants.FlashMode.on
+          torch
+            ? Camera.Constants.FlashMode.torch
             : Camera.Constants.FlashMode.off
         }
       >
