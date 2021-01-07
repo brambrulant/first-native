@@ -31,8 +31,8 @@ export default function GameScreen() {
     });
 
     // cleanup on unmount
-    return () => subscription.remove();
-  }, [[set_color, color]]);
+    return () => subscription.remove()
+  }, []);
 
   return (
     <View
